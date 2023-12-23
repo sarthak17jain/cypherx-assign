@@ -3,12 +3,23 @@ import Ticket from './Ticket';
 import {StateContext} from '../context/StateContextProvider';
 import UserIcon from './UserIcon';
 import { statusIcons, priorityIcons } from '../const/Icons';
+import { ThemeContext } from '../context/ThemeContextProvider';
 
 function GroupingSectionMain({props}) {
     const [state, setState] = useContext(StateContext);
     console.log(props);
     console.log(props.groupTitle);
     console.log(props.tickets);
+    
+    const [isDark, setIsDark] = useContext(ThemeContext);
+    const lightThemeStyle = {
+        color: '#373737'
+    }
+    const darkThemeStyle = {
+        color: '#ebebeb'
+    }
+    const appliedTheme = isDark ? darkThemeStyle : lightThemeStyle;
+
     return (
         <div class="status-grouping-section-main">
             <div class="container-main">
@@ -24,10 +35,10 @@ function GroupingSectionMain({props}) {
                         </div>
                     }
                     {state.grouping==="user" &&
-                        <UserIcon/>
+                        <UserIcon pname={props.groupTitle}/>
                     }
                     
-                    <span class="status">{props.groupTitle}</span>
+                    <span class="status" style={appliedTheme}>{props.groupTitle}</span>
                     <span style={{color: "gray"}}>{props.tickets.length}</span>
                 </div>
                 <div class="right">

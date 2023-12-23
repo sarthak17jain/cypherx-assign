@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import GroupingSectionMain from "./GroupingSectionMain";
 import { StateContext } from "../context/StateContextProvider";
 import { DataContext } from "../context/DataContextProvider";
+import { ThemeContext } from '../context/ThemeContextProvider';
 
 function MainSection() {
     const [state, setState] = useContext(StateContext);
@@ -173,8 +174,17 @@ function MainSection() {
         }
     }, [state]);
 
+    const [isDark, setIsDark] = useContext(ThemeContext);
+    const lightThemeStyle = {
+        backgroundColor: '#F4F5F8'
+    }
+    const darkThemeStyle = {
+        backgroundColor: '#010409'
+    }
+    const appliedTheme = isDark ? darkThemeStyle : lightThemeStyle;
+
     return (
-        <main>
+        <main style={appliedTheme}>
             <section className="component-wrapper">
                 {
                     !!groups && groups.map(group => (

@@ -1,28 +1,43 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import UserIcon from './UserIcon';
+import { ThemeContext } from '../context/ThemeContextProvider';
+import { DataContext } from "../context/DataContextProvider";
 import { statusIcons, priorityIcons } from '../const/Icons';
 
 function Ticket({ticketType, details}) {
-    
+    const [isDark, setIsDark] = useContext(ThemeContext);
+    const [data, setData] = useContext(DataContext);
+    const lightThemeStyle = {
+        backgroundColor: '#ffff',
+        color: '#373737',
+        borderColor: '#e6e7eb',
+    }
+    const darkThemeStyle = {
+        backgroundColor: '#161B22',
+        color: '#ebebeb',
+        borderColor: '#4a4a4a'
+    }
+    const appliedTheme = isDark ? darkThemeStyle : lightThemeStyle;
+
     return (
-        <div class="ticket-main">
+        <div class="ticket-main" style={appliedTheme}>
             <div class="top-line">
                 <span>{details.id}</span>
-                {ticketType==="user" && <UserIcon/>}
+                {ticketType==="user" && <UserIcon pname={"R"}/>}
             </div>
             <div class="middle-line">
+                <div>
                 {ticketType==="status" || statusIcons[details.status]}
-                <p>{details.title}</p>
+                </div>
+                <p style={appliedTheme}>{details.title}</p>
             </div>
             <div class="bottom-line">
                 {ticketType==="priority" || 
-                    <div class="icon-wrapper">
-                        {priorityIcons[details.priority]}
-                    </div>
+                        priorityIcons[details.priority]
                 }
 
                 <div class="tag-wrapper">
-                    <div class="tag">
+                    <div class="tag" style={appliedTheme}>
                         <div>
                             <svg
                                 stroke="currentColor"
