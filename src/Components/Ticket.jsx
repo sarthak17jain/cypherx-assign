@@ -1,43 +1,26 @@
-import React from 'react'
+import React from 'react';
+import UserIcon from './UserIcon';
+import { statusIcons, priorityIcons } from '../const/Icons';
 
-function Ticket() {
+function Ticket({ticketType, details}) {
+    
     return (
         <div class="ticket-main">
             <div class="top-line">
-                <span>CAM-10</span>
-                <div
-                    class="user-icon"
-                    style={{backgroundColor: "rgb(144, 12, 63)"}}
-                >
-                    <div>R</div>
-                    <div
-                        class="available-icon"
-                        style={{backgroundColor: "rgb(236, 194, 56)"}}
-                    ></div>
-                </div>
+                <span>{details.id}</span>
+                {ticketType==="user" && <UserIcon/>}
             </div>
             <div class="middle-line">
-                <p>Conduct Security Vulnerability Assessment</p>
+                {ticketType==="status" || statusIcons[details.status]}
+                <p>{details.title}</p>
             </div>
             <div class="bottom-line">
-                <div class="icon-wrapper">
-                    <svg
-                        stroke="currentColor"
-                        fill="none"
-                        stroke-width="2"
-                        viewBox="0 0 24 24"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        class="icon"
-                        height="1em"
-                        width="1em"
-                        xmlns="http://www.w3.org/2000/svg"
-                        style={{color: "gray"}}
-                    >
-                        <path d="M2 20h.01"></path>
-                        <path d="M7 20v-4"></path>
-                    </svg>
-                </div>
+                {ticketType==="priority" || 
+                    <div class="icon-wrapper">
+                        {priorityIcons[details.priority]}
+                    </div>
+                }
+
                 <div class="tag-wrapper">
                     <div class="tag">
                         <div>
