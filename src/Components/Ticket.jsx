@@ -20,7 +20,7 @@ function Ticket({ticketType, details}) {
     const appliedTheme = isDark ? darkThemeStyle : lightThemeStyle;
 
     return (
-        <div className="ticket-main" style={appliedTheme}>
+        <div className="ticket-main" style={{...appliedTheme, boxShadow: isDark? "0 0 8px 0 #ffffff22":"0 0 8px 0 #0000001a"}}>
             <div className="top-line">
                 <span>{details.id}</span>
                 {ticketType==="user" || <UserIcon pname={localStorage.getItem('userIdMapping') ? JSON.parse(localStorage.getItem('userIdMapping'))[details.userId]: "JS"}/>}
