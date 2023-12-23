@@ -124,6 +124,9 @@ function MainSection() {
         const newStatusBuckets = JSON.parse(localStorage.getItem('statusBuckets'));
         const newPriorityBuckets = JSON.parse(localStorage.getItem('priorityBuckets'));
         const newUserBuckets = JSON.parse(localStorage.getItem('userBuckets'));
+        if(!newStatusBuckets){
+            return;
+        }
 
         console.log(newStatusBuckets);
         console.log(newPriorityBuckets);
