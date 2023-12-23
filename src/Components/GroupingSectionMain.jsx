@@ -21,16 +21,16 @@ function GroupingSectionMain({props}) {
     const appliedTheme = isDark ? darkThemeStyle : lightThemeStyle;
 
     return (
-        <div class="status-grouping-section-main">
-            <div class="container-main">
-                <div class="left">
+        <div className="status-grouping-section-main">
+            <div className="container-main">
+                <div className="left">
                     {state.grouping==="status" &&
-                        <div class="icon-wrapper">
+                        <div className="icon-wrapper">
                             {statusIcons[props.groupTitle]}
                         </div>
                     }
                     {state.grouping==="priority" &&
-                        <div class="icon-wrapper">
+                        <div className="icon-wrapper">
                             {priorityIcons[props.groupTitle]}
                         </div>
                     }
@@ -38,17 +38,17 @@ function GroupingSectionMain({props}) {
                         <UserIcon pname={props.groupTitle}/>
                     }
                     
-                    <span class="status" style={appliedTheme}>{props.groupTitle}</span>
+                    <span className="status" style={appliedTheme}>{props.groupTitle}</span>
                     <span style={{color: "gray"}}>{props.tickets.length}</span>
                 </div>
-                <div class="right">
-                    <div class="icon-wrapper">
+                <div className="right">
+                    <div className="icon-wrapper">
                         <svg
                             stroke="currentColor"
                             fill="currentColor"
                             strokeWidth="0"
                             viewBox="0 0 24 24"
-                            class="icon"
+                            className="icon"
                             height="1em"
                             width="1em"
                             xmlns="http://www.w3.org/2000/svg"
@@ -58,13 +58,13 @@ function GroupingSectionMain({props}) {
                             <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"></path>
                         </svg>
                     </div>
-                    <div class="icon-wrapper">
+                    <div className="icon-wrapper">
                         <svg
                             stroke="currentColor"
                             fill="currentColor"
                             strokeWidth="0"
                             viewBox="0 0 16 16"
-                            class="icon"
+                            className="icon"
                             height="1em"
                             width="1em"
                             xmlns="http://www.w3.org/2000/svg"
@@ -76,7 +76,7 @@ function GroupingSectionMain({props}) {
                 </div>
             </div>
 
-            <div class="ticket-container">
+            <div className="ticket-container">
                 {
                     props.tickets.map(ticket => (
                         <Ticket ticketType={state.grouping} details={ticket}/>

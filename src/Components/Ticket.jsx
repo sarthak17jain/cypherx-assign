@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import UserIcon from './UserIcon';
 import { ThemeContext } from '../context/ThemeContextProvider';
 import { DataContext } from "../context/DataContextProvider";
@@ -20,31 +20,31 @@ function Ticket({ticketType, details}) {
     const appliedTheme = isDark ? darkThemeStyle : lightThemeStyle;
 
     return (
-        <div class="ticket-main" style={appliedTheme}>
-            <div class="top-line">
+        <div className="ticket-main" style={appliedTheme}>
+            <div className="top-line">
                 <span>{details.id}</span>
-                {ticketType==="user" && <UserIcon pname={"R"}/>}
+                {ticketType==="user" || <UserIcon pname={localStorage.getItem('userIdMapping') ? JSON.parse(localStorage.getItem('userIdMapping'))[details.userId]: "JS"}/>}
             </div>
-            <div class="middle-line">
+            <div className="middle-line">
                 <div>
                 {ticketType==="status" || statusIcons[details.status]}
                 </div>
                 <p style={appliedTheme}>{details.title}</p>
             </div>
-            <div class="bottom-line">
+            <div className="bottom-line">
                 {ticketType==="priority" || 
                         priorityIcons[details.priority]
                 }
 
-                <div class="tag-wrapper">
-                    <div class="tag" style={appliedTheme}>
+                <div className="tag-wrapper">
+                    <div className="tag" style={appliedTheme}>
                         <div>
                             <svg
                                 stroke="currentColor"
                                 fill="currentColor"
                                 strokeWidth="0"
                                 viewBox="0 0 256 256"
-                                class="icon"
+                                className="icon"
                                 height="1em"
                                 width="1em"
                                 xmlns="http://www.w3.org/2000/svg"
