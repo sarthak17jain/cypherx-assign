@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import GroupingSectionMain from "./GroupingSectionMain";
 import { StateContext } from "../context/StateContextProvider";
 import { DataContext } from "../context/DataContextProvider";
+import { ThemeContext } from '../context/ThemeContextProvider';
 
 function MainSection() {
     const [state, setState] = useContext(StateContext);
@@ -113,13 +114,12 @@ function MainSection() {
     }
 
     const configureDisplay = () => {
-        console.log()
         console.log(statusBuckets);
         console.log(priorityBuckets);
         console.log(userBuckets);
         console.log(state.grouping);
         console.log(bucketMapping);
-        console.log(bucketMapping[state.grouping]);
+        
         const newBuckets = bucketMapping[state.grouping].map(bucket => ({...bucket}));
         console.log(newBuckets);
         for(let bucket of newBuckets){
@@ -143,10 +143,8 @@ function MainSection() {
         console.log("newBuckets: ", newBuckets);
         setGroups(newBuckets);
         // upfuncMapping[state.grouping](newBuckets);
-        console.log(statusBuckets);
-        console.log(priorityBuckets);
-        console.log(userBuckets);
     };
+
 
     useEffect(() => {
         if(!!data){
@@ -162,6 +160,8 @@ function MainSection() {
         }
     }, [state, statusBuckets, priorityBuckets, userBuckets]);
 
+
+    //Handling the color Theme 
     const [isDark, setIsDark] = useContext(ThemeContext);
     const lightThemeStyle = {
         backgroundColor: '#F4F5F8'
