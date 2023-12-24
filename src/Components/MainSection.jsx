@@ -45,14 +45,16 @@ function MainSection() {
         ];
 
         const newUserBuckets = [];
-
+        const userIdMapping = {};
         for(let i=0; i<data.users.length; i++){
             newUserBuckets.push({
                 groupTitle: data.users[i].name, 
                 tickets: []
             });
             userMapping[data.users[i].id] = i;
+            userIdMapping[data.users[i].id] = data.users[i].name;
         }
+        localStorage.setItem('userIdMapping', JSON.stringify(userIdMapping));
 
         for(let ticket of data.tickets){
             switch(ticket.status){
