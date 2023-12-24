@@ -14,7 +14,7 @@ function MainSection() {
 
     const [userMapping, setUserMapping] = useState({});
     const [bucketMapping, setBucketMapping] = useState({"status":statusBuckets, "priority":priorityBuckets, "user":userBuckets});
-    const [upfuncMapping, setupfuncMapping] = useState({"status":setStatusBuckets, "priority":setPriorityBuckets, "user":setUserBuckets});
+    // const [upfuncMapping, setupfuncMapping] = useState({"status":setStatusBuckets, "priority":setPriorityBuckets, "user":setUserBuckets});
 
     const groupAndOrderData = () => {
         const newStatusBuckets = [
@@ -107,17 +107,18 @@ function MainSection() {
         setStatusBuckets(newStatusBuckets)
         setPriorityBuckets(newPriorityBuckets);
         setUserBuckets(newUserBuckets);
+
+        setBucketMapping({"status":newStatusBuckets, "priority":newPriorityBuckets, "user":newUserBuckets})
+        console.log(statusBuckets);
     }
 
-    // if(!!data){
-    //     // console.log(data);
-    //     groupAndOrderData();
-    // }
-
     const configureDisplay = () => {
+        console.log()
         console.log(statusBuckets);
         console.log(priorityBuckets);
         console.log(userBuckets);
+        console.log(state.grouping);
+        console.log(bucketMapping);
         console.log(bucketMapping[state.grouping]);
         const newBuckets = bucketMapping[state.grouping].map(bucket => ({...bucket}));
         console.log(newBuckets);
@@ -139,8 +140,9 @@ function MainSection() {
             bucket.tickets = newTickets;
         }
 
+        console.log("newBuckets: ", newBuckets);
         setGroups(newBuckets);
-        upfuncMapping[state.grouping](newBuckets);
+        // upfuncMapping[state.grouping](newBuckets);
         console.log(statusBuckets);
         console.log(priorityBuckets);
         console.log(userBuckets);
@@ -148,23 +150,31 @@ function MainSection() {
 
     useEffect(() => {
         if(!!data){
+            console.log("in useffect data")
             groupAndOrderData();
-        }
-        if(!!state && !!state.grouping){
-            configureDisplay();
         }
     }, [data]);
 
     useEffect(() => {
-        if(!!state && !!state.grouping){
+        if(!!state && !!state.grouping && statusBuckets.length && priorityBuckets.length && userBuckets.length){
+            console.log("before configureDisplay");
             configureDisplay();
         }
-    }, [state]);
+    }, [state, statusBuckets, priorityBuckets, userBuckets]);
 
-    console.log("render");
+    const [isDark, setIsDark] = useContext(ThemeContext);
+    const lightThemeStyle = {
+        backgroundColor: '#F4F5F8'
+    }
+    const darkThemeStyle = {
+        backgroundColor: '#010409'
+    }
+    const appliedTheme = isDark ? darkThemeStyle : lightThemeStyle;
+
+    console.log("render", groups);
 
     return (
-        <main>
+        <main style={appliedTheme}>
             <section className="component-wrapper">
                 {
                     !!groups && groups.map(group => (

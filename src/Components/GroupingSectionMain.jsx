@@ -7,7 +7,7 @@ import { ThemeContext } from '../context/ThemeContextProvider';
 
 function GroupingSectionMain({props}) {
     const [state, setState] = useContext(StateContext);
-    console.log(props);
+    console.log("In grouping section main", props);
     console.log(props.groupTitle);
     console.log(props.tickets);
     
