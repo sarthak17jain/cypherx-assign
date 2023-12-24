@@ -2,18 +2,16 @@ import React, { useState, useContext, useEffect } from "react";
 import GroupingSectionMain from "./GroupingSectionMain";
 import { StateContext } from "../context/StateContextProvider";
 import { DataContext } from "../context/DataContextProvider";
-import { ThemeContext } from '../context/ThemeContextProvider';
 
 function MainSection() {
     const [state, setState] = useContext(StateContext);
     const [data, setData] = useContext(DataContext);
-
     const [groups, setGroups] = useState();
 
     const [statusBuckets, setStatusBuckets] = useState([]);
     const [priorityBuckets, setPriorityBuckets] = useState([]);
     const [userBuckets, setUserBuckets] = useState([]);
-    
+
     const [userMapping, setUserMapping] = useState({});
     const [bucketMapping, setBucketMapping] = useState({"status":statusBuckets, "priority":priorityBuckets, "user":userBuckets});
     const [upfuncMapping, setupfuncMapping] = useState({"status":setStatusBuckets, "priority":setPriorityBuckets, "user":setUserBuckets});
@@ -46,17 +44,14 @@ function MainSection() {
         ];
 
         const newUserBuckets = [];
-        const userIdMapping = {};
- 
+
         for(let i=0; i<data.users.length; i++){
             newUserBuckets.push({
                 groupTitle: data.users[i].name, 
                 tickets: []
             });
             userMapping[data.users[i].id] = i;
-            userIdMapping[data.users[i].id] = data.users[i].name;
         }
-        localStorage.setItem('userIdMapping', JSON.stringify(userIdMapping));
 
         for(let ticket of data.tickets){
             switch(ticket.status){
@@ -81,21 +76,21 @@ function MainSection() {
                     break;
                 }       
             }
-            
+
             // console.log(ticket);
             newPriorityBuckets[ticket.priority].tickets.push(ticket);
             newUserBuckets[userMapping[ticket.userId]].tickets.push(ticket);
         }
 
         const newBucketMapping = {"status":newStatusBuckets, "priority":newPriorityBuckets, "user":newUserBuckets};
-        
+
         for(let bucket of newBucketMapping[state.grouping]){
             bucket.tickets.sort((a, b) =>  {
                     let ret;
                     if(a[state.ordering] < b[state.ordering]) ret = -1;
                     else if(a[state.ordering] > b[state.ordering]) ret = 1;
                     else ret = 0;
-                    
+
                     if(state.ordering === "priority"){
                         ret = -ret;
                     }
@@ -104,10 +99,6 @@ function MainSection() {
                 }
             );
         }
-
-        localStorage.setItem('statusBuckets', JSON.stringify(newStatusBuckets));
-        localStorage.setItem('priorityBuckets', JSON.stringify(newPriorityBuckets));
-        localStorage.setItem('userBuckets', JSON.stringify(newUserBuckets));
 
         console.log(newStatusBuckets);
         console.log(newPriorityBuckets);
@@ -124,30 +115,20 @@ function MainSection() {
     // }
 
     const configureDisplay = () => {
-        const newStatusBuckets = JSON.parse(localStorage.getItem('statusBuckets'));
-        const newPriorityBuckets = JSON.parse(localStorage.getItem('priorityBuckets'));
-        const newUserBuckets = JSON.parse(localStorage.getItem('userBuckets'));
-        if(!newStatusBuckets){
-            return;
-        }
-
-        console.log(newStatusBuckets);
-        console.log(newPriorityBuckets);
-        console.log(newUserBuckets);
-
-        const newBucketMapping = {"status":newStatusBuckets, "priority":newPriorityBuckets, "user":newUserBuckets};
-
+        console.log(statusBuckets);
+        console.log(priorityBuckets);
+        console.log(userBuckets);
         console.log(bucketMapping[state.grouping]);
-        const newBuckets = newBucketMapping[state.grouping];
+        const newBuckets = bucketMapping[state.grouping].map(bucket => ({...bucket}));
         console.log(newBuckets);
-
         for(let bucket of newBuckets){
-            bucket.tickets.sort((a, b) =>  {
+            let newTickets = [...bucket.tickets];
+            newTickets.sort((a, b) =>  {
                     let ret;
                     if(a[state.ordering] < b[state.ordering]) ret = -1;
                     else if(a[state.ordering] > b[state.ordering]) ret = 1;
                     else ret = 0;
-                    
+
                     if(state.ordering === "priority"){
                         ret = -ret;
                     }
@@ -155,14 +136,14 @@ function MainSection() {
                     return ret;
                 }
             );
+            bucket.tickets = newTickets;
         }
 
-        console.log(newBuckets);
         setGroups(newBuckets);
-        // upfuncMapping[state.grouping](newBuckets);
-        // console.log(statusBuckets);
-        // console.log(priorityBuckets);
-        // console.log(userBuckets);
+        upfuncMapping[state.grouping](newBuckets);
+        console.log(statusBuckets);
+        console.log(priorityBuckets);
+        console.log(userBuckets);
     };
 
     useEffect(() => {
@@ -180,24 +161,15 @@ function MainSection() {
         }
     }, [state]);
 
-    const [isDark, setIsDark] = useContext(ThemeContext);
-    const lightThemeStyle = {
-        backgroundColor: '#F4F5F8'
-    }
-    const darkThemeStyle = {
-        backgroundColor: '#010409'
-    }
-    const appliedTheme = isDark ? darkThemeStyle : lightThemeStyle;
-
     return (
-        <main style={appliedTheme}>
+        <main>
             <section className="component-wrapper">
                 {
                     !!groups && groups.map(group => (
                         <GroupingSectionMain props={group}/>
                     ))
                 }
-                
+
             </section>
         </main>
     );
