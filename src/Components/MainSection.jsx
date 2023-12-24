@@ -161,6 +161,8 @@ function MainSection() {
         }
     }, [state]);
 
+    console.log("render");
+
     return (
         <main>
             <section className="component-wrapper">
