@@ -1,6 +1,7 @@
 import React, {useState, useContext} from 'react';
 import {StateContext} from '../context/StateContextProvider';
 import { ThemeContext } from '../context/ThemeContextProvider';
+import OutsideAlerter from './OutsideAlerter';
 
 function DisplaySwitch() {
     const [state, setState] = useContext(StateContext);
@@ -28,6 +29,7 @@ function DisplaySwitch() {
     const appliedTheme = isDark ? darkThemeStyle : lightThemeStyle;
 
     return (
+        <OutsideAlerter displaySwitchOpen = {displaySwitchOpen} setDisplaySwitchOpen = {setDisplaySwitchOpen}>
         <div className="display-switch-wrapper">
             <div className="display-switch" onClick={()=>setDisplaySwitchOpen(!displaySwitchOpen)} style={{...appliedTheme, boxShadow: isDark? "0 0 8px 0 #ffffff22":"0 0 8px 0 #0000001a"}}>
                 <div className="switch-icon">
@@ -58,6 +60,7 @@ function DisplaySwitch() {
                 </div>
             </section>
         </div>
+        </OutsideAlerter>
     )
 }
 
